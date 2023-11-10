@@ -1,15 +1,11 @@
 package finos.traderx.tradeprocessor.service;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import finos.traderx.messaging.PubSubException;
 import finos.traderx.messaging.Publisher;
@@ -19,18 +15,21 @@ import finos.traderx.tradeprocessor.repository.*;
 @Service
 public class TradeService {
 	Logger log= LoggerFactory.getLogger(TradeService.class);
-	@Autowired
+
 	TradeRepository tradeRepository;
 
-	@Autowired
 	PositionRepository positionRepository;
 
-	
-    @Autowired 
-    private Publisher<Trade> tradePublisher;
-    
-    @Autowired
-    private Publisher<Position> positionPublisher;
+    private final Publisher<Trade> tradePublisher;
+
+    private final Publisher<Position> positionPublisher;
+
+	public TradeService(TradeRepository tradeRepository, PositionRepository positionRepository, Publisher<Trade> tradePublisher, Publisher<Position> positionPublisher) {
+		this.tradeRepository = tradeRepository;
+		this.positionRepository = positionRepository;
+		this.tradePublisher = tradePublisher;
+		this.positionPublisher = positionPublisher;
+	}
     
 	public TradeBookingResult processTrade(TradeOrder order) {
 		log.info("Trade order received : "+order);
