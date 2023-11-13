@@ -111,6 +111,22 @@ services:
       - localnet
     depends_on:
       - database
+  morphir-elm:
+    image: morphir-elm
+    build:
+      context: morphir-elm
+      dockerfile: Dockerfile
+    working_dir: /morphir-elm
+    expose:
+      - 18095
+    ports:
+      - 18095:18095
+    volumes:
+      # Mount the root folder that contains .git
+      - .:/workspace:cached
+    command: ./gradlew build
+    networks:
+      - localnet
   trade-service:
     image: trade-service
     build:
