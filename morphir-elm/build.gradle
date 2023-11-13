@@ -24,6 +24,12 @@ task compileElm(type: Exec) {
     commandLine morphirCommand, 'make'
 }
 
-def isWindows() {
+task generateScala(type: Exec) {
+    def morphirCommand = isWindows() ? 'morphir-elm.cmd' : 'morphir-elm'
+
+    commandLine morphirCommand, 'gen'
+}
+
+def static isWindows() {
     return System.properties['os.name'].toLowerCase().contains('win')
 }
