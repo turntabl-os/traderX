@@ -33,3 +33,7 @@ task generateScala(type: Exec) {
 def static isWindows() {
     return System.properties['os.name'].toLowerCase().contains('win')
 }
+
+build{
+    dependsOn("compileElm", "generateScala")
+}
