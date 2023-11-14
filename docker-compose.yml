@@ -111,6 +111,22 @@ services:
       - localnet
     depends_on:
       - database
+  morphir:
+    image: morphir
+    build:
+      context: morphir
+      dockerfile: Dockerfile
+    working_dir: /morphir
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    volumes:
+      # Mount the root folder that contains .git
+      - .:/workspace:cached
+    command: ./run.sh
+    networks:
+      - localnet
   morphir-elm:
     image: morphir-elm
     build:
