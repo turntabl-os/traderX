@@ -1,12 +1,17 @@
-ARG VARIANT=16-bullseye
-FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
+FROM node:18
+
+ARG VARIANT="17-bullseye"
+FROM mcr.microsoft.com/vscode/devcontainers/java:17
 
 WORKDIR /morphir-elm
 COPY . .
+
 EXPOSE 18095
 
-ARG EXTRA_NODE_VERSION=18
-RUN su node -c "source /usr/local/share/nvm/nvm.sh && nvm install ${EXTRA_NODE_VERSION}"
+
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y nodejs \
+    npm
 
 RUN npm install -g morphir-elm
 
