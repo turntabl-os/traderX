@@ -1,14 +1,17 @@
 module TraderX.Trades.Logic.Trades exposing (..)
 
-import TraderX.Models.AccountId exposing (AccountId)
-import TraderX.Models.Id exposing (ID)
-import TraderX.Trades.Types exposing (Quantity)
+import TraderX.Account.Accounts exposing (AccountId)
+import TraderX.Positions.Positions exposing (Position)
+import TraderX.Types exposing (Date, ID, Quantity, Security)
+
+type alias State =
+    String
+
+type alias TradeId =
+    ID
 
 type alias TradeQuantity =
     Quantity
-
-type alias Security =
-    String
 
 type TradeState
     = New
@@ -20,7 +23,10 @@ type TradeSide
     = Buy
     | Sell
 
-
+type alias TradeBookingResult =
+    { trade : Trade
+    , position : Position
+    }
 
 type Ticker
     = TickerInvalid
@@ -34,7 +40,7 @@ type ResourceNotFound
     = AccountNotFound
     | TickerNotFound
 
-type alias TradeOrder =
+type alias TradeOrderService =
     { id : ID
     , security : Ticker
     , quantity : TradeQuantity
@@ -42,7 +48,27 @@ type alias TradeOrder =
     , side : TradeSide
     }
 
-createTradeOrder : TradeOrder -> Result ResourceNotFound TradeOrder
+type alias Trade =
+    { id : ID
+    , accountId : AccountId
+    , security : Security
+    , side : TradeSide
+    , state :  TradeState
+    , quantity : TradeQuantity
+    , updated : Maybe Date
+    , created : Maybe Date
+    }
+
+type alias TradeOrder =
+    { id : ID
+    , state : State
+    , security : Security
+    , quantity : TradeQuantity
+    , accountId : AccountId
+    , side : TradeSide
+    }
+
+createTradeOrder : TradeOrderService -> Result ResourceNotFound TradeOrderService
 createTradeOrder tradeOrder =
     let 
         validTicker =
@@ -61,4 +87,40 @@ createTradeOrder tradeOrder =
     in
     case validTicker of
         Err _ -> validTicker
-        Ok _ -> validAccount 
+        Ok _ -> validAccount
+
+
+calculateQuantity: TradeSide -> Int -> Int
+calculateQuantity side tradeQuantity =
+    if side == Buy then
+        tradeQuantity * 1
+    else
+        tradeQuantity * -1
+
+
+processTrade : TradeOrder -> TradeBookingResult
+processTrade order =
+    let
+        trade =
+            { id = order.id
+            , security = order.security
+            , quantity = order.quantity
+            , accountId = 1
+            , side = order.side
+            , state =  New
+            , updated = Just "LocalDate.fromParts 2000 11 12"
+            , created = Just "LocalDate.fromParts 2000 11 12"
+            }
+
+        position =
+            { serialVersionUID = 1
+            , accountId = order.accountId
+            , security = order.security
+            , quantity = calculateQuantity order.side order.quantity
+            , updated = Just "LocalDate.fromParts 2000 11 12"
+            }
+    in
+    { trade = trade
+    , position = position
+    }
+

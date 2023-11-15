@@ -1,7 +1,13 @@
 module TraderX.Positions.Positions exposing (..)
 
+import TraderX.Account.Accounts exposing (AccountId)
+import TraderX.Types exposing (Date, Quantity, Security)
 
-import TraderX.Positions.Types exposing (Date, Quantity)
+
+type alias PositionID =
+    { accountId : AccountId
+    , security : Security
+    }
 
 type alias PositionQuantity =
     Quantity
