@@ -1,4 +1,4 @@
-module TraderX.Trades.Logic.Trades exposing (..)
+module TraderX.Trades.Trades exposing (..)
 
 import TraderX.Account.Accounts exposing (AccountId)
 import TraderX.Positions.Positions exposing (Position)
