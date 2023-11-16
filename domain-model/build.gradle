@@ -17,6 +17,8 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation 'org.scala-lang:scala-library:2.11.12'
+    implementation 'org.morphir:morphir-sdk-core_2.12:0.18.2'
+
 }
 
 sourceSets {
@@ -40,7 +42,7 @@ task compileElm(type: Exec) {
 task generateScala(type: Exec) {
     def morphirCommand = isWindows() ? 'morphir-elm.cmd' : 'morphir-elm'
 
-    commandLine morphirCommand, 'gen', '-c', '-o', './src/main/scala'
+    commandLine morphirCommand, 'gen', '-o', './src/main/scala'
 }
 
 task displayBusiness(type: Exec) {
