@@ -55,6 +55,34 @@ def static isWindows() {
     return System.properties['os.name'].toLowerCase().contains('win')
 }
 
+
+task typesJar(type: org.gradle.jvm.tasks.Jar) {
+    from(sourceSets.main.output) {
+        include "TraderX/Types/**"
+    }
+}
+
+task tradesJar(type: org.gradle.jvm.tasks.Jar) {
+    from(sourceSets.main.output) {
+        include "TraderX/Types/**"
+        include "TraderX/Trades/Trades/**"
+    }
+}
+
+task positionsJar(type: org.gradle.jvm.tasks.Jar) {
+    from(sourceSets.main.output) {
+        include "TraderX/Types/**"
+        include "TraderX/Positions/Positions/**"
+    }
+}
+
+task accountJar(type: org.gradle.jvm.tasks.Jar) {
+    from(sourceSets.main.output) {
+        include "TraderX/Types/**"
+        include "TraderX/Account/Account/**"
+    }
+}
+
 build{
-    dependsOn("compileElm", "generateScala")
+    dependsOn("compileElm", "generateScala", "typesJar", "tradesJar", "positionsJar", "accountJar")
 }
