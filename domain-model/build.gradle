@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+    id 'scala'
+
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = '17'
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'org.scala-lang:scala-library:2.11.12'
+}
+
+sourceSets {
+    main.scala.srcDirs = ["src/main/scala"]
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task prepareKotlinBuildScriptModel {
+
+}
+
+task compileElm(type: Exec) {
+    def morphirCommand = isWindows() ? 'morphir-elm.cmd' : 'morphir-elm'
+
+    commandLine morphirCommand, 'make'
+}
+
+task generateScala(type: Exec) {
+    def morphirCommand = isWindows() ? 'morphir-elm.cmd' : 'morphir-elm'
+
+    commandLine morphirCommand, 'gen', '-c', '-o', './src/main/scala'
+}
+
+task displayBusiness(type: Exec) {
+    def morphirCommand = isWindows() ? 'morphir-elm.cmd' : 'morphir-elm'
+
+    commandLine morphirCommand, 'develop'
+}
+
+def static isWindows() {
+    return System.properties['os.name'].toLowerCase().contains('win')
+}
+
+build{
+    dependsOn("compileElm", "generateScala")
+}

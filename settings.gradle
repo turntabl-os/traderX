@@ -1,0 +1,14 @@
+rootProject.name = 'traderX'
+include 'domain-model'
+include 'trade-service'
+include 'account-service'
+include 'database'
+include 'position-service'
+include 'trade-processor'
+
+dependencyResolutionManagement {
+    repositories {
+        // Use Maven Central for resolving dependencies.
+        mavenCentral()
+    }
+}
