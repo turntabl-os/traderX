@@ -41,6 +41,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+task prepareKotlinBuildScriptModel {
+
+}
 
 
 tasks.named('test') {
