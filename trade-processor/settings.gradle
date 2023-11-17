@@ -1,0 +1,9 @@
+rootProject.name = 'trade-processor'
+
+
+dependencyResolutionManagement {
+    repositories {
+        // Use Maven Central for resolving dependencies.
+        mavenCentral()
+    }
+}

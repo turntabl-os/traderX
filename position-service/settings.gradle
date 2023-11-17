@@ -1,0 +1,8 @@
+rootProject.name = 'position-service'
+
+dependencyResolutionManagement {
+    repositories {
+        // Use Maven Central for resolving dependencies.
+        mavenCentral()
+    }
+}

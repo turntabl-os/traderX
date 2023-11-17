@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'scala'
-
+    id 'maven-publish'
 }
 
 group 'org.example'
@@ -21,6 +21,7 @@ dependencies {
 
 }
 
+
 sourceSets {
     main.scala.srcDirs = ["src/main/scala"]
 }
@@ -29,9 +30,6 @@ test {
     useJUnitPlatform()
 }
 
-task prepareKotlinBuildScriptModel {
-
-}
 
 task compileElm(type: Exec) {
     def morphirCommand = isWindows() ? 'morphir-elm.cmd' : 'morphir-elm'
@@ -83,6 +81,23 @@ task accountJar(type: Jar) {
     }
 }
 
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+
+//        mavenScala(MavenPublication) {
+//            from components.scala
+//        }
+    }
+
+    repositories {
+        mavenLocal()
+    }
+}
+
 build{
     dependsOn("compileElm", "generateScala", "typesJar", "tradesJar", "positionsJar", "accountJar")
 }
+
