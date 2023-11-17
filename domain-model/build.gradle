@@ -56,27 +56,27 @@ def static isWindows() {
 }
 
 
-task typesJar(type: org.gradle.jvm.tasks.Jar) {
+task typesJar(type: Jar) {
     from(sourceSets.main.output) {
         include "TraderX/Types/**"
     }
 }
 
-task tradesJar(type: org.gradle.jvm.tasks.Jar) {
+task tradesJar(type: Jar) {
     from(sourceSets.main.output) {
         include "TraderX/Types/**"
         include "TraderX/Trades/Trades/**"
     }
 }
 
-task positionsJar(type: org.gradle.jvm.tasks.Jar) {
+task positionsJar(type: Jar) {
     from(sourceSets.main.output) {
         include "TraderX/Types/**"
         include "TraderX/Positions/Positions/**"
     }
 }
 
-task accountJar(type: org.gradle.jvm.tasks.Jar) {
+task accountJar(type: Jar) {
     from(sourceSets.main.output) {
         include "TraderX/Types/**"
         include "TraderX/Account/Account/**"
