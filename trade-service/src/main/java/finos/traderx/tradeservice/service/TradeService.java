@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
+import traderx.*;
 @Service
 public class TradeService {
     private static final Logger log = LoggerFactory.getLogger(TradeOrderController.class);
@@ -19,7 +19,6 @@ public class TradeService {
     private String referenceDataServiceAddress;
     @Value("${account.service.url}")
     private String accountServiceAddress;
-
     public boolean validateTicker(String ticker)
     {
         // Move whole method to a sperate class that handles all reference data

@@ -11,4 +11,3 @@ plugins {
 }
 
 rootProject.name = 'domain-model'
-include('lib')
