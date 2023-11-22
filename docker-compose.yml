@@ -129,6 +129,7 @@ services:
       - TRADE_FEED_HOST=trade-feed
     volumes:
       # Mount the root folder that contains .git
+      - ${HOME}/.m2:/root/.m2/
       - .:/workspace:cached
     command: ./gradlew bootRun
     networks:

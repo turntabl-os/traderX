@@ -11,6 +11,8 @@ import finos.traderx.messaging.PubSubException;
 import finos.traderx.messaging.Publisher;
 import finos.traderx.tradeprocessor.model.*;
 import finos.traderx.tradeprocessor.repository.*;
+import traderx.trades.Trades;
+
 
 @Service
 public class TradeService {
@@ -23,6 +25,7 @@ public class TradeService {
     private final Publisher<Trade> tradePublisher;
 
     private final Publisher<Position> positionPublisher;
+
 
 	public TradeService(TradeRepository tradeRepository, PositionRepository positionRepository, Publisher<Trade> tradePublisher, Publisher<Position> positionPublisher) {
 		this.tradeRepository = tradeRepository;
@@ -55,7 +58,14 @@ public class TradeService {
 			position.setSecurity(order.getSecurity());
 			position.setQuantity(0);
 		}
-		int newQuantity=((order.getSide()==TradeSide.Buy)?1:-1)*t.getQuantity();
+//		int newQuantity=((order.getSide()==TradeSide.Buy)?1:-1)*t.getQuantity();
+
+		Trades.TradeSide side = order.getSide() == TradeSide.Buy ? Trades.TradeSide.Buy$.MODULE$ : Trades.TradeSide.Sell$.MODULE$;
+
+		int newQuantity = Trades.calculateQuantity(side, t.getQuantity());
+
+		System.out.println("Quantity  " + newQuantity);
+
 		position.setQuantity(position.getQuantity()+newQuantity);
 		log.info("Trade {}",t);
 		tradeRepository.save(t);
