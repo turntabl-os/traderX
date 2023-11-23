@@ -60,7 +60,7 @@ public class TradeService {
 		}
 //		int newQuantity=((order.getSide()==TradeSide.Buy)?1:-1)*t.getQuantity();
 
-		Trades.TradeSide side = order.getSide() == TradeSide.Buy ? Trades.TradeSide.Buy$.MODULE$ : Trades.TradeSide.Sell$.MODULE$;
+		String side = order.getSide() == TradeSide.Buy ? "buy" : "sell";
 
 		int newQuantity = Trades.calculateQuantity(side, t.getQuantity());
 

@@ -51,7 +51,7 @@ task compileElm(type: Exec) {
 task generateScala(type: Exec) {
     def morphirCommand = isWindows() ? 'morphir-elm.cmd' : 'morphir-elm'
 
-    commandLine morphirCommand, 'gen', '-o', './src/main/scala'
+    commandLine morphirCommand, 'gen', '-e', '2.13.11', '-o', './src/main/scala'
 }
 
 task displayBusiness(type: Exec) {
