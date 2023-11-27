@@ -67,28 +67,28 @@ type alias TradeOrder =
     , accountId : AccountId
     , side : TradeSide
     }
---
---createTradeOrder : TradeOrderService -> Result ResourceNotFound TradeOrderService
---createTradeOrder tradeOrder =
---    let
---        validTicker =
---            case tradeOrder.security of
---                TickerValid _ ->
---                    Ok tradeOrder
---                TickerInvalid ->
---                    Err TickerNotFound
---        validAccount =
---            case tradeOrder.accountId of
---                AccountValid _ ->
---                    Ok tradeOrder
---                AccountInvalid ->
---                    Err AccountNotFound
---
---    in
---    case validTicker of
---        Err _ -> validTicker
---        Ok _ -> validAccount
---
+
+createTradeOrder : TradeOrderService -> Result ResourceNotFound TradeOrderService
+createTradeOrder tradeOrder =
+   let
+       validTicker =
+           case tradeOrder.security of
+               TickerValid _ ->
+                   Ok tradeOrder
+               TickerInvalid ->
+                   Err TickerNotFound
+       validAccount =
+           case tradeOrder.accountId of
+               AccountValid _ ->
+                   Ok tradeOrder
+               AccountInvalid ->
+                   Err AccountNotFound
+
+   in
+   case validTicker of
+       Err _ -> validTicker
+       Ok _ -> validAccount
+
 --
 --calculateQuantity: TradeSide -> Int -> Int
 --calculateQuantity side tradeQuantity =
@@ -106,29 +106,29 @@ calculateQuantity side tradeQuantity =
         tradeQuantity * -1
 --
 --
---processTrade : TradeOrder -> TradeBookingResult
---processTrade order =
---    let
---        trade =
---            { id = order.id
---            , security = order.security
---            , quantity = order.quantity
---            , accountId = 1
---            , side = order.side
---            , state =  New
---            , updated = Just "LocalDate.fromParts 2000 11 12"
---            , created = Just "LocalDate.fromParts 2000 11 12"
---            }
---
---        position =
---            { serialVersionUID = 1
---            , accountId = order.accountId
---            , security = order.security
---            , quantity = calculateQuantity order.side order.quantity
---            , updated = Just "LocalDate.fromParts 2000 11 12"
---            }
---    in
---    { trade = trade
---    , position = position
---    }
+processTrade : TradeOrder -> TradeBookingResult
+processTrade order =
+   let
+       trade =
+           { id = order.id
+           , security = order.security
+           , quantity = order.quantity
+           , accountId = 1
+           , side = order.side
+           , state =  New
+           , updated = Just "LocalDate.fromParts 2000 11 12"
+           , created = Just "LocalDate.fromParts 2000 11 12"
+           }
+
+       position =
+           { serialVersionUID = 1
+           , accountId = order.accountId
+           , security = order.security
+           , quantity = calculateQuantity order.side order.quantity
+           , updated = Just "LocalDate.fromParts 2000 11 12"
+           }
+   in
+   { trade = trade
+   , position = position
+   }
 
