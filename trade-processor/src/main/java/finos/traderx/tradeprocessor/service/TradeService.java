@@ -25,8 +25,6 @@ public class TradeService {
     private final Publisher<Trade> tradePublisher;
 
     private final Publisher<Position> positionPublisher;
-	public Trades.Trade example;
-
 
 	public TradeService(TradeRepository tradeRepository, PositionRepository positionRepository, Publisher<Trade> tradePublisher, Publisher<Position> positionPublisher) {
 		this.tradeRepository = tradeRepository;
@@ -63,8 +61,6 @@ public class TradeService {
 		Trades.TradeSide side = order.getSide() == TradeSide.Buy ? Trades.Buy() : Trades.Sell();
 
 		int newQuantity = Trades.calculateQuantity(side, t.getQuantity());
-
-		System.out.println("Quantity  " + newQuantity);
 
 		position.setQuantity(position.getQuantity()+newQuantity);
 		log.info("Trade {}",t);
