@@ -53,23 +53,6 @@ class TradeServiceTest {
         doNothing().when(positionPublisher).publish(any(), any());
     }
 
-    @Test
-    void testIfExampleIsNull(){
-        tradeOrder = new TradeOrder("ID1", 123, "MSFT", TradeSide.Buy, 2);
-        underTest.processTrade(tradeOrder);
-        assertNotNull(underTest.example);
-        assertEquals(tradeOrder.getSecurity(), underTest.example.security());
-
-    }
-
-    @Test
-    void testIfExampleQuantityIsNotZero(){
-        tradeOrder = new TradeOrder("ID1", 123, "MSFT", TradeSide.Buy, 2);
-        underTest.processTrade(tradeOrder);
-        assertEquals(tradeOrder.getQuantity(), underTest.exampleQuantity);
-
-    }
- 
    @Test
    void processTradeIfTradeSideIsBuy() throws PubSubException {
        tradeOrder = new TradeOrder("ID1", 123, "MSFT", TradeSide.Buy, 2);
@@ -87,7 +70,7 @@ class TradeServiceTest {
        position = new Position();
        position.setAccountId(123);
        position.setSecurity("MSFT");
-       position.setQuantity(2);
+       position.setQuantity(5);
        position.setUpdated(new Date());
 
        trade.setUpdated(new Date());
@@ -96,12 +79,13 @@ class TradeServiceTest {
        trade.setUpdated(new Date());
        trade.setState(TradeState.Settled);
        when(positionRepository.findByAccountIdAndSecurity(any(Integer.class), any(String.class))).thenReturn(position);
+       int expectedQuantity = trade.getQuantity() + position.getQuantity();
 
        result = underTest.processTrade(tradeOrder);
 
        assertEquals(TradeSide.Buy, result.getTrade().getSide());
-       assertEquals(4, position.getQuantity());
-       assertEquals(4, result.getPosition().getQuantity());
+       assertEquals(expectedQuantity , position.getQuantity());
+       assertEquals(expectedQuantity, result.getPosition().getQuantity());
        assertNotNull(result);
        assertEquals(position.getQuantity(), result.getPosition().getQuantity());
 
@@ -139,13 +123,11 @@ class TradeServiceTest {
         trade.setState(TradeState.Settled);
         when(positionRepository.findByAccountIdAndSecurity(any(Integer.class), any(String.class))).thenReturn(position);
 
-
+        int expectedQuantity = position.getQuantity() - trade.getQuantity();
         result = underTest.processTrade(tradeOrder);
-        TradeBookingResult expected = new TradeBookingResult(trade, position);
-        TradeSide expectedSide = TradeSide.Sell;
 
         assertEquals(TradeSide.Sell, result.getTrade().getSide());
-        assertEquals(-2, result.getPosition().getQuantity());
+        assertEquals(expectedQuantity, result.getPosition().getQuantity());
         assertNotNull(result);
 
         verify(positionRepository, times(1)).findByAccountIdAndSecurity(anyInt(), anyString());

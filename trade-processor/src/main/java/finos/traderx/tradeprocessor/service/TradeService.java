@@ -26,7 +26,6 @@ public class TradeService {
 
     private final Publisher<Position> positionPublisher;
 	public Trades.Trade example;
-	public int exampleQuantity;
 
 
 	public TradeService(TradeRepository tradeRepository, PositionRepository positionRepository, Publisher<Trade> tradePublisher, Publisher<Position> positionPublisher) {
@@ -60,7 +59,6 @@ public class TradeService {
 			position.setSecurity(order.getSecurity());
 			position.setQuantity(0);
 		}
-		// int newQuantity=((order.getSide()==TradeSide.Buy)?1:-1)*t.getQuantity();
 
 		Trades.TradeSide side = order.getSide() == TradeSide.Buy ? Trades.Buy() : Trades.Sell();
 
@@ -91,8 +89,6 @@ public class TradeService {
 		} catch (PubSubException exc){
 			log.error("Error publishing trade "+order,exc);
 		}
-		Trades.TradeSide buy = Trades.Buy();
-		example = new Trades.Trade(t.getId(), t.getAccountId(), t.getSecurity(), buy, null, newQuantity, null, null);
 		
 		return result;	
 	}
