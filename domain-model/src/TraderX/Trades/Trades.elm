@@ -98,9 +98,9 @@ type alias TradeOrder =
 --        tradeQuantity * -1
 
 
-calculateQuantity: String -> Int -> Int
+calculateQuantity: TradeSide -> Int -> Int
 calculateQuantity side tradeQuantity =
-    if side == "buy" then
+    if side == Buy then
         tradeQuantity * 1
     else
         tradeQuantity * -1

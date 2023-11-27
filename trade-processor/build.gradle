@@ -45,8 +45,9 @@ dependencies {
 	}
    	implementation 'io.swagger.core.v3:swagger-core:2.2.15'
 	implementation 'org.yaml:snakeyaml:2.0'
-	implementation 'org.scala-lang:scala-library-all:2.13.11'
+	implementation 'org.scala-lang:scala-library:2.13.11'
 	implementation 'traderx:domain-model:1.0-SNAPSHOT'
+	implementation 'org.morphir:morphir-sdk-core_2.13:0.18.2'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
