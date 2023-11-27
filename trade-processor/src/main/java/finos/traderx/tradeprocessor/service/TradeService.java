@@ -60,11 +60,11 @@ public class TradeService {
 			position.setSecurity(order.getSecurity());
 			position.setQuantity(0);
 		}
-		int newQuantity=((order.getSide()==TradeSide.Buy)?1:-1)*t.getQuantity();
+		// int newQuantity=((order.getSide()==TradeSide.Buy)?1:-1)*t.getQuantity();
 
-		String side = order.getSide() == TradeSide.Buy ? "buy" : "sell";
+		Trades.TradeSide side = order.getSide() == TradeSide.Buy ? Trades.Buy() : Trades.Sell();
 
-		exampleQuantity = Trades.calculateQuantity(side, t.getQuantity());
+		int newQuantity = Trades.calculateQuantity(side, t.getQuantity());
 
 		System.out.println("Quantity  " + newQuantity);
 
@@ -91,8 +91,8 @@ public class TradeService {
 		} catch (PubSubException exc){
 			log.error("Error publishing trade "+order,exc);
 		}
-
-		example = new Trades.Trade("gh", t.getAccountId(), t.getSecurity(), null, null, newQuantity, null, null);
+		Trades.TradeSide buy = Trades.Buy();
+		example = new Trades.Trade(t.getId(), t.getAccountId(), t.getSecurity(), buy, null, newQuantity, null, null);
 		
 		return result;	
 	}
