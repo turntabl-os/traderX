@@ -66,8 +66,6 @@ public class TradeService {
 
 		exampleQuantity = Trades.calculateQuantity(side, t.getQuantity());
 
-		System.out.println("Quantity  " + newQuantity);
-
 		position.setQuantity(position.getQuantity()+newQuantity);
 		log.info("Trade {}",t);
 		tradeRepository.save(t);
@@ -93,8 +91,7 @@ public class TradeService {
 		}
 
 		example = new Trades.Trade("gh", t.getAccountId(), t.getSecurity(), null, null, newQuantity, null, null);
-		
+
 		return result;	
 	}
-
 }
