@@ -7,10 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import finos.traderx.tradeprocessor.model.Position;
 import finos.traderx.tradeprocessor.model.PositionID;
+import traderx.positions.Positions;
 
-public interface PositionRepository extends JpaRepository<Position,PositionID> {
+public interface PositionRepository extends JpaRepository<Positions.Position,PositionID> {
 
-    List<Position> findByAccountId(Integer id);
-    Position findByAccountIdAndSecurity(Integer id, String security);
+    List<Positions.Position> findByAccountId(Integer id);
+    Positions.Position findByAccountIdAndSecurity(Integer id, String security);
 
 }

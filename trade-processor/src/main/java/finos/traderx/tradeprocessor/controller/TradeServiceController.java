@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import finos.traderx.tradeprocessor.model.TradeBookingResult;
 import finos.traderx.tradeprocessor.model.TradeOrder;
 import finos.traderx.tradeprocessor.service.TradeService;
+import traderx.trades.Trades;
 
 @CrossOrigin("*")
 @RestController
@@ -26,8 +27,8 @@ public class TradeServiceController {
  
 
 	@PostMapping("/order")
-	public ResponseEntity<TradeBookingResult> processOrder(@RequestBody TradeOrder order) {
-		TradeBookingResult result= tradeService.processTrade(order);
+	public ResponseEntity<Trades.TradeBookingResult> processOrder(@RequestBody Trades.TradeOrder order) {
+		Trades.TradeBookingResult result= tradeService.processTrade(order);
 		return ResponseEntity.ok(result);
 	}
 
