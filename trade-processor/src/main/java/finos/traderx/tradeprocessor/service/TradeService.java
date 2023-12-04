@@ -11,6 +11,8 @@ import finos.traderx.messaging.PubSubException;
 import finos.traderx.messaging.Publisher;
 import finos.traderx.tradeprocessor.model.*;
 import finos.traderx.tradeprocessor.repository.*;
+import traderx.trades.Trades;
+
 
 @Service
 public class TradeService {
@@ -55,7 +57,11 @@ public class TradeService {
 			position.setSecurity(order.getSecurity());
 			position.setQuantity(0);
 		}
-		int newQuantity=((order.getSide()==TradeSide.Buy)?1:-1)*t.getQuantity();
+
+		Trades.TradeSide side = order.getSide() == TradeSide.Buy ? Trades.Buy() : Trades.Sell();
+
+		int newQuantity = Trades.calculateQuantity(side, t.getQuantity());
+
 		position.setQuantity(position.getQuantity()+newQuantity);
 		log.info("Trade {}",t);
 		tradeRepository.save(t);
