@@ -7,5 +7,5 @@ build
 **/src/main/scala
 
 **/morphir-**.json
-
+**/dist
 
