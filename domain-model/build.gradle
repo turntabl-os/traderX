@@ -68,11 +68,27 @@ build{
 publishing {
     publications {
         mavenJava(MavenPublication) {
+//            groupId = 'io.turntabl'
+//            artifactId = 'domain-model'
+//            version = "1.0-SNAPSHOT"
             from components.java
+//
+//            pom {
+//                name = 'Domain Model'
+//                description = 'Domain model for traderX'
+//            }
         }
     }
 
     repositories {
         mavenLocal()
+//        maven {
+//            credentials {
+//                username = "$usr"
+//                password = "$pwd"
+//            }
+//
+//            url = "https://maven.pkg.jetbrains.space/mycompany/p/projectkey/my-maven-repo"
+//        }
     }
 }
