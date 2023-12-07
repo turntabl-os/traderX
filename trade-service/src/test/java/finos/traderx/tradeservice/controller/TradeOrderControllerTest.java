@@ -9,22 +9,25 @@ import finos.traderx.tradeservice.service.TradeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 class TradeOrderControllerTest {
-    @MockBean
+    @Mock
     TradeService tradeServiceMock;
-    @MockBean
+
+    @Mock
     Publisher<TradeOrder> tradePublisherMock;
+
     TradeOrder tradeOrder;
+
+    @InjectMocks
     TradeOrderController underTest;
 
     @BeforeEach
@@ -53,7 +56,6 @@ class TradeOrderControllerTest {
 
     @Test
     public void testTradeOrderWithInvalidTickerThrowsException() throws PubSubException {
-        Mockito.doNothing().when(tradePublisherMock).publish("/trades", tradeOrder);
         Mockito.when(tradeServiceMock.validateTicker(tradeOrder.getSecurity())).thenReturn(false);
 
         assertThrows(ResourceNotFoundException.class, () -> {underTest.createTradeOrder(tradeOrder);});
@@ -63,7 +65,6 @@ class TradeOrderControllerTest {
 
     @Test
     public void testTradeOrderWithInvalidAccountThrowsException() throws PubSubException {
-        Mockito.doNothing().when(tradePublisherMock).publish("/trades", tradeOrder);
         Mockito.when(tradeServiceMock.validateAccount(tradeOrder.getAccountId())).thenReturn(false);
         Mockito.when(tradeServiceMock.validateTicker(tradeOrder.getSecurity())).thenReturn(true);
 
@@ -73,8 +74,6 @@ class TradeOrderControllerTest {
 
     @Test
     public void testTradeOrderWithInvalidAccountAndTickerThrowsException() throws PubSubException {
-        Mockito.doNothing().when(tradePublisherMock).publish("/trades", tradeOrder);
-        Mockito.when(tradeServiceMock.validateAccount(tradeOrder.getAccountId())).thenReturn(false);
         Mockito.when(tradeServiceMock.validateTicker(tradeOrder.getSecurity())).thenReturn(false);
 
         assertThrows(ResourceNotFoundException.class, () -> {underTest.createTradeOrder(tradeOrder);});

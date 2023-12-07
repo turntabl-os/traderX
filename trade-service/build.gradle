@@ -50,6 +50,7 @@ dependencies {
 	implementation 'traderx:domain-model:1.0-SNAPSHOT'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation "org.wiremock:wiremock:3.3.1"
 
 }
 
