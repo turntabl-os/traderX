@@ -1,18 +1,24 @@
 module TraderX.Stock.Stock exposing (..)
-import TraderX.Trades.Trades exposing (Ticker)
-import TraderX.Trades.Trades exposing (ResourceNotFound(..))
+
 
 type alias Stock =
     { ticker: String
     , companyName: String
     }
 
-findBy: String -> List Stock -> Maybe Stock
-findBy ticker stocks =
+type StockError 
+    = StockErrorValue
+    | SYT
+
+
+findStockBy : String -> List Stock -> Result StockError Stock
+findStockBy ticker stocksList =
     let
-        maybeStock : Maybe Stock
-        maybeStock = List.head (List.filter (\stock -> stock.ticker == ticker) stocks)
+        maybestock : Maybe Stock
+        maybestock = List.head (List.filter (\stock -> stock.ticker == ticker) stocksList)
             
     in
-    maybeStock
+    case maybestock of
+        Just s -> Ok s
+        Nothing -> Err StockErrorValue
     
